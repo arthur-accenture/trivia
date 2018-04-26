@@ -10,10 +10,11 @@ export class TriviaQuestionsComponent implements OnInit {
   correctAnswers: Map<string, string> = new Map<string, string>();
   selectedAnswer: Map<string, string> = new Map<string, string>();
   private _triviaQuestions;
+
   @Input()
   set triviaQuestions(triviaQuestions: TriviaQuestions[]) {
     this._triviaQuestions = triviaQuestions;
-    for (let i = 0; triviaQuestions && i < triviaQuestions.length; i++){
+    for (let i = 0; triviaQuestions && i < triviaQuestions.length; i++) {
       this.correctAnswers.set(triviaQuestions[i].questionId, triviaQuestions[i].correctAnswer);
     }
   }

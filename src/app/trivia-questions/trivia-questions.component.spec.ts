@@ -84,4 +84,39 @@ describe('TriviaQuestionsComponent', () => {
     expect(inputControl2.length).toBe(1);
     expect(labelControl2.length).toBe(1);
   });
+
+  fit('should populate correctAnswers array when _triviaQuestions is set', () => {
+    // Expect no trivia questions or correct answers
+    expect(component.correctAnswers.size).toEqual(0);
+    expect(component.triviaQuestions).toBeFalsy();
+
+    // Expect when trivia questions returned, then correct answers are populated.
+    component.triviaQuestions = [{
+      category: 'Science & Nature',
+      type: 'multiple',
+      difficulty: 'easy',
+      question: 'What is the hottest planet in the Solar System?',
+      correctAnswer: 'Venus',
+      incorrectAnswers: ['Mars', 'Mercury', 'Jupiter'],
+      allAnswers: ['Mars', 'Venus', 'Mercury', 'Jupiter'],
+      questionId: '11111111-2222-3333-4444-555566667777',
+    },
+    {
+      category: 'Mythology',
+      type: 'multiple',
+      difficulty: 'hard',
+      question: 'Which Greek & Roman god was known as the god of music, truth and prophecy, healing, the sun and light, plague, poetry, and more?',
+      correctAnswer: 'Apollo',
+      incorrectAnswers: ['Aphrodite', 'Artemis', 'Athena'],
+      allAnswers: ['Aphrodite', 'Artemis', 'Athena', 'Apollo'],
+      questionId: '11111111-2222-3333-4444-555566668888',
+    }];
+    // Expect exact values of correctAnswers match our mock data.
+    expect(component.correctAnswers.size).toEqual(2);
+    expect(component.triviaQuestions).toBeTruthy();
+    expect(component.correctAnswers.get('11111111-2222-3333-4444-555566667777')).toEqual('Venus');
+    expect(component.correctAnswers.get('11111111-2222-3333-4444-555566668888')).toEqual('Apollo');
+
+  });
+
 });
