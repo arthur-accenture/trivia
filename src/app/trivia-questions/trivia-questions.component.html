@@ -6,7 +6,7 @@
     <div class="answers">
       <div *ngFor="let answer of triviaQuestion.allAnswers; let i = index" class="answer">
           <label for="{{triviaQuestion.questionId}}-{{i}}">
-              <input type="radio" id="{{triviaQuestion.questionId}}-{{i}}"/>{{answer}}
+              <input type="radio" name="{{triviaQuestion.questionId}}" id="{{triviaQuestion.questionId}}-{{i}}"/>{{answer}}
           </label>
       </div>
     </div>
