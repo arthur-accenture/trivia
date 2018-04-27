@@ -14,6 +14,7 @@ export class TriviaQuestionsComponent implements OnInit {
   @Input()
   set triviaQuestions(triviaQuestions: TriviaQuestions[]) {
     this._triviaQuestions = triviaQuestions;
+    this.correctAnswers.clear();
     for (let i = 0; triviaQuestions && i < triviaQuestions.length; i++) {
       this.correctAnswers.set(triviaQuestions[i].questionId, triviaQuestions[i].correctAnswer);
     }
