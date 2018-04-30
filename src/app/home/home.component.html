@@ -1,3 +1,5 @@
 <p>
     home works!
 </p>
+<app-trivia-options (optionsModel)="getQuestions($event)"></app-trivia-options>
+<app-trivia-questions [triviaQuestions]="triviaQuestions"></app-trivia-questions>
