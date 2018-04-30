@@ -8,7 +8,7 @@ import { TriviaQuestions } from '../core/models';
 })
 export class TriviaQuestionsComponent implements OnInit {
   correctAnswers: Map<string, string> = new Map<string, string>();
-  selectedAnswer: Map<string, string> = new Map<string, string>();
+  selectedAnswers: Map<string, string> = new Map<string, string>();
   private _triviaQuestions;
 
   @Input()
