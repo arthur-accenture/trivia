@@ -1,14 +1,17 @@
-<ol>
-  <li *ngFor="let triviaQuestion of triviaQuestions" id="{{triviaQuestion.questionId}}">
-    <div class="question">
-      <p>{{triviaQuestion.question}}</p>
-    </div>
-    <div class="answers">
-      <div *ngFor="let answer of triviaQuestion.allAnswers; let i = index" class="answer">
-          <label for="{{triviaQuestion.questionId}}-{{i}}">
-              <input type="radio" name="{{triviaQuestion.questionId}}" id="{{triviaQuestion.questionId}}-{{i}}"/>{{answer}}
-          </label>
+<section id="questions">
+  <ol>
+    <li *ngFor="let triviaQuestion of triviaQuestions" id="{{triviaQuestion.questionId}}">
+      <div class="question">
+        <p>{{triviaQuestion.question}}</p>
       </div>
-    </div>
-  </li>
-</ol>
+      <div class="answers">
+        <div *ngFor="let answer of triviaQuestion.allAnswers; let i = index" class="answer">
+            <label for="{{triviaQuestion.questionId}}-{{i}}">
+                <input type="radio" name="{{triviaQuestion.questionId}}" id="{{triviaQuestion.questionId}}-{{i}}"/>{{answer}}
+            </label>
+        </div>
+      </div>
+    </li>
+  </ol>
+  <button *ngIf="correctAnswers.size > 0" id="check-answers-button">Check Answers</button>
+</section>
