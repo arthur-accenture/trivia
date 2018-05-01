@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 
-import { TriviaCategory, TriviaQuestions } from '../models';
+import { TriviaCategory, TriviaQuestion } from '../models';
 
 
 @Injectable()
@@ -48,7 +48,7 @@ export class TriviaService {
         } else {
           allAnswers = allAnswers.concat(result.incorrect_answers, result.correct_answer).sort(function() { return 0.5 - Math.random(); });
         }
-        return <TriviaQuestions>{
+        return <TriviaQuestion>{
           question: result.question,
           correctAnswer: result.correct_answer,
           incorrectAnswers: result.incorrect_answers,
