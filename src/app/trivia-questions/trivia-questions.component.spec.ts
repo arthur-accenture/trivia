@@ -38,6 +38,7 @@ describe('TriviaQuestionsComponent', () => {
       difficulty: 'easy',
       question: 'What is the hottest planet in the Solar System?',
       correctAnswer: 'Venus',
+      selectedAnswer: '',
       incorrectAnswers: ['Mars', 'Mercury', 'Jupiter'],
       allAnswers: ['Mars', 'Venus', 'Mercury', 'Jupiter'],
       questionId: '11111111-2222-3333-4444-555566667777',
@@ -64,6 +65,7 @@ describe('TriviaQuestionsComponent', () => {
       question: 'What is the hottest planet in the Solar System?',
       correctAnswer: 'Venus',
       incorrectAnswers: ['Mars', 'Mercury', 'Jupiter'],
+      selectedAnswer: '',
       allAnswers: ['Mars', 'Venus', 'Mercury', 'Jupiter'],
       questionId: '11111111-2222-3333-4444-555566667777',
     },
@@ -74,6 +76,7 @@ describe('TriviaQuestionsComponent', () => {
       question: 'Which Greek & Roman god was known as the god of music, truth and prophecy, healing, the sun and light, plague, poetry, and more?',
       correctAnswer: 'Apollo',
       incorrectAnswers: ['Aphrodite', 'Artemis', 'Athena'],
+      selectedAnswer: '',
       allAnswers: ['Aphrodite', 'Artemis', 'Athena', 'Apollo'],
       questionId: '11111111-2222-3333-4444-555566668888',
     }];
@@ -85,7 +88,7 @@ describe('TriviaQuestionsComponent', () => {
     expect(labelControl2.length).toBe(1);
   });
 
-  fit('should populate correctAnswers array when _triviaQuestions is set', () => {
+  it('should populate correctAnswers array when _triviaQuestions is set', () => {
     // Expect no trivia questions or correct answers
     expect(component.correctAnswers.size).toEqual(0);
     expect(component.triviaQuestions).toBeFalsy();
@@ -98,6 +101,7 @@ describe('TriviaQuestionsComponent', () => {
       question: 'What is the hottest planet in the Solar System?',
       correctAnswer: 'Venus',
       incorrectAnswers: ['Mars', 'Mercury', 'Jupiter'],
+      selectedAnswer: '',
       allAnswers: ['Mars', 'Venus', 'Mercury', 'Jupiter'],
       questionId: '11111111-2222-3333-4444-555566667777',
     },
@@ -108,6 +112,7 @@ describe('TriviaQuestionsComponent', () => {
       question: 'Which Greek & Roman god was known as the god of music, truth and prophecy, healing, the sun and light, plague, poetry, and more?',
       correctAnswer: 'Apollo',
       incorrectAnswers: ['Aphrodite', 'Artemis', 'Athena'],
+      selectedAnswer: '',
       allAnswers: ['Aphrodite', 'Artemis', 'Athena', 'Apollo'],
       questionId: '11111111-2222-3333-4444-555566668888',
     }];
