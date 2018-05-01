@@ -7,9 +7,12 @@ import { TriviaQuestion } from '../core/models';
   styleUrls: ['./trivia-questions.component.css']
 })
 export class TriviaQuestionsComponent implements OnInit {
+  // TODO: refactor the three below into a single object or Map:
   correctAnswers: Map<string, string> = new Map<string, string>();
   selectedAnswers: Map<string, string> = new Map<string, string>();
-  answers = {};
+  scoreMap = {};
+
+  score: Number = 0;
   private _triviaQuestions;
   revealAnswers = false;
 
@@ -22,6 +25,7 @@ export class TriviaQuestionsComponent implements OnInit {
     for (let i = 0; triviaQuestions && i < triviaQuestions.length; i++) {
       this.correctAnswers.set(triviaQuestions[i].questionId, triviaQuestions[i].correctAnswer);
       this.selectedAnswers.set(triviaQuestions[i].questionId, '');
+      this.scoreMap[triviaQuestions[i].questionId] = 0;
       console.log('selected answers so far: ', this.selectedAnswers);
     }
   }
@@ -34,17 +38,28 @@ export class TriviaQuestionsComponent implements OnInit {
 
   updateSelection(id, answer) {
     this.selectedAnswers.set(id, answer);
-    console.log('updating answer with ID: ', id, ' and answer: ', answer);
+    // update tally:
+    if (answer === this.correctAnswers.get(id)) {
+      this.scoreMap[id] = 1;
+    } else {
+      this.scoreMap[id] = 0;
+    }
   }
+
   checkAnswers() {
     // if not all answers submitted yet, alert.
 
     // else, reveal the answers:
     console.log('selected answers: ', this.selectedAnswers);
     this.revealAnswers = true;
+
+    // Update the score:
+    // NB: putting this in checkAnswers means that this.score is NOT up to date all the time.
+    // Doing this to prevent on-screen score from updating when user selects answers.
+    this.score = 0;
+    for (let key of Object.keys(this.scoreMap)) {
+      this.score += this.scoreMap[key];
+    }
   }
 
 }
-
-
-// [ngClass]="{correct-answer: answer===this.correctAnswers[triviaQuestion.questionId]}"
