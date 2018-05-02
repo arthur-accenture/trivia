@@ -14,7 +14,7 @@
     </li>
   </ol>
   <button *ngIf="correctAnswers.size > 0" id="check-answers-button" (click)="checkAnswers()">Check Answers</button>
-  <div *ngIf="revealAnswers">
+  <div *ngIf="revealAnswers" class="score-wrapper">
     Score: {{score}}
   </div>
 </section>

@@ -50,7 +50,6 @@ export class TriviaQuestionsComponent implements OnInit {
     // if not all answers submitted yet, alert.
 
     // else, reveal the answers:
-    console.log('selected answers: ', this.selectedAnswers);
     this.revealAnswers = true;
 
     // Update the score:
