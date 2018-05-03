@@ -18,10 +18,8 @@ export class HomeComponent implements OnInit {
 
     // on click "Generate Questions":
     getQuestions(options) {
-      console.log('user options at button click: ', options);
       this.triviaService.getQuestions(options).subscribe(response => {
         this.triviaQuestions = <TriviaQuestion[]>response;
-        //console.log(response);
       });
     }
 }

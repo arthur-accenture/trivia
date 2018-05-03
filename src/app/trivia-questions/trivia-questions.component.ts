@@ -26,7 +26,6 @@ export class TriviaQuestionsComponent implements OnInit {
       this.correctAnswers.set(triviaQuestions[i].questionId, triviaQuestions[i].correctAnswer);
       this.selectedAnswers.set(triviaQuestions[i].questionId, '');
       this.scoreMap[triviaQuestions[i].questionId] = 0;
-      console.log('selected answers so far: ', this.selectedAnswers);
     }
   }
   get triviaQuestions(): TriviaQuestion[] { return this._triviaQuestions; }

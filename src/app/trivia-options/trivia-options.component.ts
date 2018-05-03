@@ -10,7 +10,7 @@ import { TriviaService } from '../core/services';
   providers: [TriviaService],
 })
 export class TriviaOptionsComponent implements OnInit {
-  public trivia_categories;
+  public triviaCategories;
   options: TriviaOptions;
 
   @Output()
@@ -21,7 +21,7 @@ export class TriviaOptionsComponent implements OnInit {
   ngOnInit() {
     this.options = <TriviaOptions> {};
     this.triviaService.getCategories().subscribe(
-      response => this.trivia_categories = response);
+      response => this.triviaCategories = response);
   }
 
   getOptions() {

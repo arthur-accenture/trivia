@@ -6,7 +6,7 @@
         Category: <br>
         <select name="options-category" class="question-category" [(ngModel)]="options.category">
       <option class="questionCategory" value="">All</option>
-      <option *ngFor="let trivia_category of trivia_categories" class="{{trivia_category.name}}" value="{{trivia_category.id}}">{{trivia_category.name}}</option>
+      <option *ngFor="let category of triviaCategories" class="questionCategory" value="{{category.id}}">{{category.name}}</option>
     </select><br>
     </div>
     <div class="options-difficulty">
