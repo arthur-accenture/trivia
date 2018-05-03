@@ -20,6 +20,7 @@ export class TriviaOptionsComponent implements OnInit {
 
   ngOnInit() {
     this.options = <TriviaOptions> {};
+    this.options.amount = 10;
     this.triviaService.getCategories().subscribe(
       response => this.triviaCategories = response);
   }
