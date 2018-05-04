@@ -118,22 +118,6 @@ describe('TriviaQuestionsComponent', () => {
     component.triviaQuestions[0].score = 1;
     component.triviaQuestions[1].score = 1;
 
-    // Mock scores:
-    // component.scoreMap = {
-    //   'firstID': 1,
-    //   'secondID': 0,
-    //   'thirdID': 1,
-    //   'fourthID': 0,
-    //   'fifthID': 1,
-    //   'sixthID': 1,
-    //   'seventhID': 1,
-    //   'eighthID': 0,
-    //   'ninethID': 1,
-    //   'tenthID': 0,
-    // };
-
-
-
     expect(component.score).toEqual(0);
     expect(component.score).not.toEqual(2);
 
@@ -148,7 +132,8 @@ describe('TriviaQuestionsComponent', () => {
   it('should only show score on screen after "check answers" button pressed', () => {
 
     // Mock some data to force check-answers button to render:
-    component.triviaQuestions = mockQuestions;
+    component.triviaQuestions = [mockQuestions[0]];
+    let firstId = mockQuestions[0].questionId;
     fixture.detectChanges();
 
     // Expect score not shown before "check answers":
@@ -157,6 +142,8 @@ describe('TriviaQuestionsComponent', () => {
     expect(scoreElement.length).toBe(0);
 
     // Expect score to be shown after "check answers"
+    let radio0 = fixture.debugElement.query(By.css(`input[id="${firstId}-0"]`)).nativeElement;
+    radio0.click();
     let button = fixture.debugElement.query(By.css('button#check-answers-button')).nativeElement;
     button.click();
     fixture.detectChanges();
@@ -165,6 +152,21 @@ describe('TriviaQuestionsComponent', () => {
     expect(scoreElement2.length).toBe(1);
 
   });
+
+  it('should alert user if check answers button pressed before all questions have been answered', () => {
+    spyOn(window, 'alert');
+
+    component.triviaQuestions = mockQuestions;
+    let firstId = mockQuestions[0].questionId;
+    let secondId = mockQuestions[1].questionId;
+    fixture.detectChanges();
+
+    let button = fixture.debugElement.query(By.css('button#check-answers-button')).nativeElement;
+    button.click();
+
+    expect(window.alert).toHaveBeenCalledWith('you must answer all questions to check answers!');
+  });
+
 
   it('should apply correct-answer and selected-answer classes when "check answer" button is pressed', () => {
 

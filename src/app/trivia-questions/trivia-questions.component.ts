@@ -32,9 +32,18 @@ export class TriviaQuestionsComponent implements OnInit {
 
   checkAnswers() {
     // if not all answers submitted yet, alert.
-
-    // else, reveal the answers:
-    this.revealAnswers = true;
+    let allAnswered = true;
+    for (let question of this.triviaQuestions) {
+      console.log(question);
+      if (!question.selectedAnswer) {
+        allAnswered = false;
+      }
+    }
+    if (!allAnswered) {
+      alert('you must answer all questions to check answers!');
+    } else {
+      this.revealAnswers = true;
+    }
 
     // update the score:
     this.score = 0;
