@@ -2,36 +2,17 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TriviaQuestionsComponent } from './trivia-questions.component';
 import { TriviaQuestion } from '../core/models';
+import { FormsModule } from '@angular/forms';
 
 describe('TriviaQuestionsComponent', () => {
   let component: TriviaQuestionsComponent;
   let fixture: ComponentFixture<TriviaQuestionsComponent>;
-  const mockQuestions: TriviaQuestion[] = [{
-    category: 'Science & Nature',
-    type: 'multiple',
-    difficulty: 'easy',
-    question: 'What is the hottest planet in the Solar System?',
-    correctAnswer: 'Venus',
-    incorrectAnswers: ['Mars', 'Mercury', 'Jupiter'],
-    selectedAnswer: '',
-    allAnswers: ['Mars', 'Venus', 'Mercury', 'Jupiter'],
-    questionId: '11111111-2222-3333-4444-555566667777'
-  },
-  {
-    category: 'Mythology',
-    type: 'multiple',
-    difficulty: 'hard',
-    question: 'Which Greek & Roman god was known as the god of music, truth and prophecy etc?',
-    correctAnswer: 'Apollo',
-    incorrectAnswers: ['Aphrodite', 'Artemis', 'Athena'],
-    selectedAnswer: '',
-    allAnswers: ['Aphrodite', 'Artemis', 'Athena', 'Apollo'],
-    questionId: '11111111-2222-3333-4444-555566668888'
-  }];
+  let mockQuestions: TriviaQuestion[];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TriviaQuestionsComponent]
+      declarations: [TriviaQuestionsComponent],
+      imports: [FormsModule]
     })
       .compileComponents();
   }));
@@ -39,6 +20,26 @@ describe('TriviaQuestionsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TriviaQuestionsComponent);
     component = fixture.componentInstance;
+    mockQuestions = [{
+      category: 'Science & Nature',
+      type: 'multiple',
+      difficulty: 'easy',
+      question: 'What is the hottest planet in the Solar System?',
+      correctAnswer: 'Venus',
+      incorrectAnswers: ['Mars', 'Mercury', 'Jupiter'],
+      allAnswers: ['Mars', 'Venus', 'Mercury', 'Jupiter'],
+      questionId: '11111111-2222-3333-4444-555566667777'
+    },
+    {
+      category: 'Mythology',
+      type: 'multiple',
+      difficulty: 'hard',
+      question: 'Which Greek & Roman god was known as the god of music, truth and prophecy etc?',
+      correctAnswer: 'Apollo',
+      incorrectAnswers: ['Aphrodite', 'Artemis', 'Athena'],
+      allAnswers: ['Aphrodite', 'Artemis', 'Athena', 'Apollo'],
+      questionId: '11111111-2222-3333-4444-555566668888'
+    }];
     fixture.detectChanges();
   });
 
@@ -108,7 +109,30 @@ describe('TriviaQuestionsComponent', () => {
 
   });
 
-  // It should update score and selectedAnswer properties when an answer is selected
+  it('should should update score and selectedAnswer properties when an answer is selected', () => {
+    component.triviaQuestions = [mockQuestions[0]];
+    fixture.detectChanges();
+    let firstId = mockQuestions[0].questionId;
+
+    // Expect score, selectedAnswer to not exist on the question:
+    expect(component.triviaQuestions[0].score).toBeUndefined();
+    expect(component.triviaQuestions[0].selectedAnswer).toBeUndefined();
+
+    let radio0 = fixture.debugElement.query(By.css(`input[id="${firstId}-0"]`)).nativeElement; // 'Mars', incorrect
+    radio0.click();
+
+    // Expect score to be 0, selectedAnswer to be 'Mars':
+    expect(component.triviaQuestions[0].score).toBe(0);
+    expect(component.triviaQuestions[0].selectedAnswer).toBe('Mars');
+
+    let radio1 = fixture.debugElement.query(By.css(`input[id="${firstId}-1"]`)).nativeElement; // 'Venus', correct
+    radio1.click();
+
+    // Expect score to be 1, selectedAnswer to be 'Venus':
+    expect(component.triviaQuestions[0].score).toBe(1);
+    expect(component.triviaQuestions[0].selectedAnswer).toBe('Venus');
+
+  });
 
   it('should calculate correct score when "check answers" button pressed', () => {
 
@@ -116,16 +140,20 @@ describe('TriviaQuestionsComponent', () => {
     component.triviaQuestions = mockQuestions;
     fixture.detectChanges();
     component.triviaQuestions[0].score = 1;
+    component.triviaQuestions[0].selectedAnswer = 'some answer';
     component.triviaQuestions[1].score = 1;
+    component.triviaQuestions[1].selectedAnswer = 'some other answer';
 
-    expect(component.score).toEqual(0);
-    expect(component.score).not.toEqual(2);
+    expect(component.tally.correct).toEqual(0);
+    expect(component.tally.correct).not.toEqual(2);
+    expect(component.tally.total).toEqual(0);
 
     let button = fixture.debugElement.query(By.css('button#check-answers-button')).nativeElement;
     button.click();
 
-    expect(component.score).toEqual(2);
-    expect(component.score).not.toEqual(0);
+    expect(component.tally.correct).toEqual(2);
+    expect(component.tally.correct).not.toEqual(0);
+    expect(component.tally.total).toEqual(2);
 
   });
 
@@ -157,8 +185,8 @@ describe('TriviaQuestionsComponent', () => {
     spyOn(window, 'alert');
 
     component.triviaQuestions = mockQuestions;
-    let firstId = mockQuestions[0].questionId;
-    let secondId = mockQuestions[1].questionId;
+    let firstId = component.triviaQuestions[0].questionId;
+    let secondId = component.triviaQuestions[1].questionId;
     fixture.detectChanges();
 
     let button = fixture.debugElement.query(By.css('button#check-answers-button')).nativeElement;
@@ -166,7 +194,6 @@ describe('TriviaQuestionsComponent', () => {
 
     expect(window.alert).toHaveBeenCalledWith('you must answer all questions to check answers!');
   });
-
 
   it('should apply correct-answer and selected-answer classes when "check answer" button is pressed', () => {
 

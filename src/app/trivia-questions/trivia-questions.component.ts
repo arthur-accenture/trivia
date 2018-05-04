@@ -8,7 +8,10 @@ import { TriviaQuestion } from '../core/models';
 })
 export class TriviaQuestionsComponent implements OnInit {
 
-  score = 0;
+  tally = {
+    correct: 0,
+    total: 0
+  };
   // private triviaQuestions to prevent infinite loop in setter below
   private _triviaQuestions;
   revealAnswers = false;
@@ -34,7 +37,6 @@ export class TriviaQuestionsComponent implements OnInit {
     // if not all answers submitted yet, alert.
     let allAnswered = true;
     for (let question of this.triviaQuestions) {
-      console.log(question);
       if (!question.selectedAnswer) {
         allAnswered = false;
       }
@@ -43,11 +45,11 @@ export class TriviaQuestionsComponent implements OnInit {
       alert('you must answer all questions to check answers!');
     } else {
       this.revealAnswers = true;
+      this.tally.total += this._triviaQuestions.length;
     }
 
     // update the score:
-    this.score = 0;
-    this.score = this.triviaQuestions.map(question => question.score || 0)
+    this.tally.correct += this.triviaQuestions.map(question => question.score || 0)
     .reduce((accumulator, score) => accumulator + score);
   }
 

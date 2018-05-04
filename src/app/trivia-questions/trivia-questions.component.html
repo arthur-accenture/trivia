@@ -14,7 +14,7 @@
     </li>
   </ol>
   <button *ngIf="triviaQuestions" id="check-answers-button" (click)="checkAnswers()">Check Answers</button>
-  <div *ngIf="revealAnswers" class="score-wrapper">
-    Score: {{score}}
+  <div *ngIf="tally.total > 0" class="score-wrapper">
+    Score: {{tally.correct}} / {{tally.total}}
   </div>
 </section>
