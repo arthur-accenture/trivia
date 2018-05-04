@@ -39,7 +39,7 @@ export class TriviaQuestionsComponent implements OnInit {
     // update the score:
     this.score = 0;
     this.score = this.triviaQuestions.map(question => question.score || 0)
-    .reduce((accumulator, score) => <number>accumulator + score);
+    .reduce((accumulator, score) => accumulator + score);
   }
 
 }
