@@ -18,22 +18,18 @@ describe('TriviaService', () => {
   }));
 
   it('should reference correct URL to retrieve categories', async(inject([TriviaService, HttpTestingController], (service: TriviaService, backend: HttpTestingController) => {
-    console.log('testing service!');
     service.getCategories()
     .subscribe();
     backend.expectOne((request: HttpRequest<any>) => {
-      console.log(request);
       return request.url === 'https://opentdb.com/api_category.php';
     });
   })));
 
   it('should reference correct URL to retrieve questions', async(inject([TriviaService, HttpTestingController], (service: TriviaService, backend: HttpTestingController) => {
-    console.log('testing questions service!');
     let mock_options = {};
     service.getQuestions(mock_options)
     .subscribe();
     backend.expectOne((request: HttpRequest<any>) => {
-      console.log(request);
       return request.urlWithParams === 'https://opentdb.com/api.php?amount=10';
     });
 
@@ -41,7 +37,6 @@ describe('TriviaService', () => {
     service.getQuestions(mock_options)
     .subscribe();
     backend.expectOne((request: HttpRequest<any>) => {
-      console.log(request);
       return request.urlWithParams === 'https://opentdb.com/api.php?amount=10&category=20&difficulty=medium&type=boolean';
     });
   })));

@@ -36,10 +36,8 @@ export class TriviaService {
         params = params.append(i, options[i]);
       }
     }
-    console.log(params);
     return this.http.get(URL, {params})
     .map((response: any) => {
-      console.log(this.http.get(URL, {params: params}));
       return response.results.map((result) => {
         let allAnswers = [];
         let uuid = UUID.UUID();
