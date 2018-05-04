@@ -7,13 +7,13 @@
       <div class="answers">
         <div *ngFor="let answer of triviaQuestion.allAnswers; let i = index" class="answer">
             <label for="{{triviaQuestion.questionId}}-{{i}}" [ngClass]="{'correct-answer': revealAnswers && answer==triviaQuestion.correctAnswer, 'selected-answer': revealAnswers && answer==triviaQuestion.selectedAnswer}">
-                <input type="radio" name="{{triviaQuestion.questionId}}" (change)="updateSelection(triviaQuestion, triviaQuestion.allAnswers[i])" id="{{triviaQuestion.questionId}}-{{i}}"/>{{answer}}
+                <input type="radio" [disabled]="!this.checkAnswersEnabled" name="{{triviaQuestion.questionId}}" (change)="updateSelection(triviaQuestion, triviaQuestion.allAnswers[i])" id="{{triviaQuestion.questionId}}-{{i}}"/>{{answer}}
             </label>
         </div>
       </div>
     </li>
   </ol>
-  <button *ngIf="triviaQuestions" id="check-answers-button" (click)="checkAnswers()">Check Answers</button>
+  <button [disabled]="!this.checkAnswersEnabled" *ngIf="triviaQuestions" id="check-answers-button" (click)="checkAnswers()">Check Answers</button>
   <div *ngIf="tally.total > 0" class="score-wrapper">
     Score: {{tally.correct}} / {{tally.total}}
   </div>

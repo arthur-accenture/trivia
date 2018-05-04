@@ -15,11 +15,13 @@ export class TriviaQuestionsComponent implements OnInit {
   // private triviaQuestions to prevent infinite loop in setter below
   private _triviaQuestions;
   revealAnswers = false;
+  checkAnswersEnabled = false;
 
   @Input()
   set triviaQuestions(triviaQuestions: TriviaQuestion[]) {
     this.revealAnswers = false;
     this._triviaQuestions = triviaQuestions;
+    this.checkAnswersEnabled = true;
   }
   get triviaQuestions(): TriviaQuestion[] { return this._triviaQuestions; }
 
@@ -46,6 +48,7 @@ export class TriviaQuestionsComponent implements OnInit {
     } else {
       this.revealAnswers = true;
       this.tally.total += this._triviaQuestions.length;
+      this.checkAnswersEnabled = false;
     }
 
     // update the score:
