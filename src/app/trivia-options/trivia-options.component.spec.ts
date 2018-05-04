@@ -55,11 +55,8 @@ describe('TriviaOptionsComponent', () => {
   });
 
   it('should bind difficulty with the radios named "options-difficulty"', () => {
-    // When stable makes sure test is run after:
-    // 1) Bindings are ready
-    // 2) Any default values are loaded
     fixture.whenStable().then(() => {
-      // Before we start, value should be nothing
+      // Initial value should be nothing
       expect(component.options.difficulty).toBeFalsy();
       const TEST_VALUE = 'easy';
       const control = fixture.debugElement.query(By.css(`.options-difficulty input[value=${TEST_VALUE}]`));
@@ -72,9 +69,6 @@ describe('TriviaOptionsComponent', () => {
   });
 
   it('should bind category with the select named "options-category"', () => {
-    // When stable makes sure test is run after:
-    // 1) Bindings are ready
-    // 2) Any default values are loaded
     fixture.whenStable().then(() => {
       expect(component.options.category).toBeFalsy();
 
@@ -91,9 +85,6 @@ describe('TriviaOptionsComponent', () => {
   });
 
   it('should bind type with the select named "options-type"', () => {
-    // When stable makes sure test is run after:
-    // 1) Bindings are ready
-    // 2) Any default values are loaded
     fixture.whenStable().then(() => {
       expect(component.options.type).toBeFalsy();
 
@@ -110,9 +101,6 @@ describe('TriviaOptionsComponent', () => {
   });
 
   it('should invoke getOptions() method when "generate questions" button is pressed', ()  =>  {
-    // When stable makes sure test is run after:
-    // 1) Bindings are ready
-    // 2) Any default values are loaded
     fixture.whenStable().then(()  =>  {
       spyOn(component,  'getOptions');
 

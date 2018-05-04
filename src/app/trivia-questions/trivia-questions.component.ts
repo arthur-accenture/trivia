@@ -22,6 +22,8 @@ export class TriviaQuestionsComponent implements OnInit {
     this._triviaQuestions = triviaQuestions;
     this.correctAnswers.clear();
     this.selectedAnswers.clear();
+
+    // from response, populate correctAnswers and initialise selectedAnswers and scoreMap:
     for (let i = 0; triviaQuestions && i < triviaQuestions.length; i++) {
       this.correctAnswers.set(triviaQuestions[i].questionId, triviaQuestions[i].correctAnswer);
       this.selectedAnswers.set(triviaQuestions[i].questionId, '');
@@ -37,7 +39,7 @@ export class TriviaQuestionsComponent implements OnInit {
 
   updateSelection(id, answer) {
     this.selectedAnswers.set(id, answer);
-    // update tally:
+
     if (answer === this.correctAnswers.get(id)) {
       this.scoreMap[id] = 1;
     } else {
@@ -51,9 +53,7 @@ export class TriviaQuestionsComponent implements OnInit {
     // else, reveal the answers:
     this.revealAnswers = true;
 
-    // Update the score:
-    // NB: putting this in checkAnswers means that this.score is NOT up to date all the time.
-    // Doing this to prevent on-screen score from updating when user selects answers.
+    // update the score:
     this.score = 0;
     for (let key of Object.keys(this.scoreMap)) {
       this.score += this.scoreMap[key];

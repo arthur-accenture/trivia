@@ -29,4 +29,9 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // It should call getQuestions() when optionsModel event emitter triggers
+
+  // It should call triviaService when getQuestions is executed
+
 });

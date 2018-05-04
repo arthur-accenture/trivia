@@ -20,7 +20,7 @@ describe('TriviaQuestionsComponent', () => {
     category: 'Mythology',
     type: 'multiple',
     difficulty: 'hard',
-    question: 'Which Greek & Roman god was known as the god of music, truth and prophecy, healing, the sun and light, plague, poetry, and more?',
+    question: 'Which Greek & Roman god was known as the god of music, truth and prophecy etc?',
     correctAnswer: 'Apollo',
     incorrectAnswers: ['Aphrodite', 'Artemis', 'Athena'],
     selectedAnswer: '',
@@ -48,15 +48,12 @@ describe('TriviaQuestionsComponent', () => {
   it('should render questions when supplied a model', () => {
     // Test before model is ready
     let control = fixture.debugElement.query(By.css('.question'));
-
     // Not doing expect(control).toBeFalsy() due to a bug
     // https://github.com/angular/angular/issues/14235
     expect(control == null).toBe(true);
 
-    // Set model up for another test
+    // Assign some question data, expect DOM to update:
     component.triviaQuestions = [mockQuestions[0]];
-
-    // Test after model is ready
     fixture.detectChanges();
     control = fixture.debugElement.query(By.css('.question'));
     expect(control != null).toBe(true);
@@ -69,8 +66,8 @@ describe('TriviaQuestionsComponent', () => {
     expect(inputControl == null).toBe(true);
     expect(labelControl == null).toBe(true);
 
+    // Assign test data, expect DOM to update properly:
     component.triviaQuestions = mockQuestions;
-
     fixture.detectChanges();
     let inputControl2 = fixture.debugElement.queryAll(By.css('input[id="11111111-2222-3333-4444-555566668888-2"]'));
     let labelControl2 = fixture.debugElement.queryAll(By.css('label[for="11111111-2222-3333-4444-555566668888-2"]'));
@@ -157,7 +154,6 @@ describe('TriviaQuestionsComponent', () => {
   });
 
   it('should update the scoreMap object when an answer is selected', () => {
-    // correct indices: 1,3
     // Mock data to render button:
     component.triviaQuestions = mockQuestions;
     let firstId = mockQuestions[0].questionId;
@@ -169,11 +165,11 @@ describe('TriviaQuestionsComponent', () => {
     expect(component.scoreMap[secondId]).toBe(0);
 
     // Expect scores to be {1, 0} if first question correct only:
-    let radio = fixture.debugElement.query(By.css(`input[id="${firstId}-1"]`)); // First question, correct answer ('Venus')
+    let radio = fixture.debugElement.query(By.css(`input[id="${firstId}-1"]`)); // correct
     let radioElement = radio.nativeElement;
     radioElement.click();
 
-    let radio2 = fixture.debugElement.query(By.css(`input[id="${secondId}-1"]`)); // Second question, incorrect answer ('Artemis')
+    let radio2 = fixture.debugElement.query(By.css(`input[id="${secondId}-1"]`)); // incorrect
     let radioElement2 = radio2.nativeElement;
     radioElement2.click();
 
@@ -181,11 +177,11 @@ describe('TriviaQuestionsComponent', () => {
     expect(component.scoreMap[secondId]).toBe(0);
 
     // Expect scores to be {1, 1} if both questions correct:
-    let radio3 = fixture.debugElement.query(By.css(`input[id="${firstId}-1"]`)); // First question, correct answer ('Venus')
+    let radio3 = fixture.debugElement.query(By.css(`input[id="${firstId}-1"]`)); // correct
     let radioElement3 = radio3.nativeElement;
     radioElement3.click();
 
-    let radio4 = fixture.debugElement.query(By.css(`input[id="${secondId}-3"]`)); // Second question, correct answer ('Apollo')
+    let radio4 = fixture.debugElement.query(By.css(`input[id="${secondId}-3"]`)); // correct
     let radioElement4 = radio4.nativeElement;
     radioElement4.click();
 
@@ -193,11 +189,11 @@ describe('TriviaQuestionsComponent', () => {
     expect(component.scoreMap[secondId]).toBe(1);
 
     // Expect scores to go back to {0, 0} if both questions incorrect:
-    let radio5 = fixture.debugElement.query(By.css(`input[id="${firstId}-2"]`)); // First question, incorrect answer ('Mercury')
+    let radio5 = fixture.debugElement.query(By.css(`input[id="${firstId}-2"]`)); // incorrect
     let radioElement5 = radio5.nativeElement;
     radioElement5.click();
 
-    let radio6 = fixture.debugElement.query(By.css(`input[id="${secondId}-2"]`)); // Second question, incorrect answer ('Athena')
+    let radio6 = fixture.debugElement.query(By.css(`input[id="${secondId}-2"]`)); // incorrect
     let radioElement6 = radio6.nativeElement;
     radioElement6.click();
 
@@ -260,24 +256,25 @@ describe('TriviaQuestionsComponent', () => {
 
   it('should apply correct-answer and selected-answer classes when "check answer" button is pressed', () => {
 
-    // Mock some data to force check-answers button to render:
+    // Mock data to force check-answers button to render:
     component.triviaQuestions = [mockQuestions[0]];
     let firstId = mockQuestions[0].questionId;
     fixture.detectChanges();
 
     // Select an incorrect answer, then check answers:
-    let radio0 = fixture.debugElement.query(By.css(`input[id="${firstId}-0"]`)).nativeElement; // First question, incorrect answer ('Mars')
+    let radio0 = fixture.debugElement.query(By.css(`input[id="${firstId}-0"]`)).nativeElement; // incorrect
     radio0.click();
     let checkAnswersButton = fixture.debugElement.query(By.css('button#check-answers-button')).nativeElement;
     checkAnswersButton.click();
     fixture.detectChanges();
 
-    // expect correct-answer and selected-answer classes applied to the correct answers:
-    // Identify answer directly, then find by class, and expect to be the same object:
-    let answer0 = fixture.debugElement.query(By.css(`label[for="${firstId}-0"]`)).nativeElement; // Selected
-    let answer1 = fixture.debugElement.query(By.css(`label[for="${firstId}-1"]`)).nativeElement; // Correct
+    // expect correct-answer and selected-answer classes applied to the appropriate answers:
+    // Identify answer directly, then find by class, and expect to match up:
+    let answer0 = fixture.debugElement.query(By.css(`label[for="${firstId}-0"]`)).nativeElement; // selected
+    let answer1 = fixture.debugElement.query(By.css(`label[for="${firstId}-1"]`)).nativeElement; // correct
     let answer2 = fixture.debugElement.query(By.css(`label[for="${firstId}-2"]`)).nativeElement;
     let answer3 = fixture.debugElement.query(By.css(`label[for="${firstId}-3"]`)).nativeElement;
+
     let selectedByClass = fixture.debugElement.query(By.css('.selected-answer')).nativeElement;
     let correctByClass = fixture.debugElement.query(By.css('.correct-answer')).nativeElement;
 

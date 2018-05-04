@@ -16,10 +16,10 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-    // on click "Generate Questions":
-    getQuestions(options) {
-      this.triviaService.getQuestions(options).subscribe(response => {
-        this.triviaQuestions = <TriviaQuestion[]>response;
-      });
-    }
+  // on click "Generate Questions":
+  getQuestions(options) {
+    this.triviaService.getQuestions(options).subscribe(response => {
+      this.triviaQuestions = <TriviaQuestion[]>response;
+    });
+  }
 }
