@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TriviaQuestionsComponent } from './trivia-questions.component';
+import { TriviaQuestion } from '../core/models';
 
 describe('TriviaQuestionsComponent', () => {
   let component: TriviaQuestionsComponent;
   let fixture: ComponentFixture<TriviaQuestionsComponent>;
-  const mockQuestions = [{
+  const mockQuestions: TriviaQuestion[] = [{
     category: 'Science & Nature',
     type: 'multiple',
     difficulty: 'easy',
@@ -75,21 +76,6 @@ describe('TriviaQuestionsComponent', () => {
     expect(labelControl2.length).toBe(1);
   });
 
-  it('should populate correctAnswers array when _triviaQuestions is set', () => {
-    // Expect no trivia questions or correct answers
-    expect(component.correctAnswers.size).toEqual(0);
-    expect(component.triviaQuestions).toBeFalsy();
-
-    // Expect when trivia questions returned, then correct answers are populated.
-    component.triviaQuestions = mockQuestions;
-    // Expect exact values of correctAnswers match our mock data.
-    expect(component.correctAnswers.size).toEqual(2);
-    expect(component.triviaQuestions).toBeTruthy();
-    expect(component.correctAnswers.get('11111111-2222-3333-4444-555566667777')).toEqual('Venus');
-    expect(component.correctAnswers.get('11111111-2222-3333-4444-555566668888')).toEqual('Apollo');
-
-  });
-
   it('should render "check answers" button after questions are populated', () => {
     // Expect no button in DOM before triviaQuestions populated:
     let buttons = fixture.debugElement.queryAll(By.css('button#check-answers-button'));
@@ -122,113 +108,39 @@ describe('TriviaQuestionsComponent', () => {
 
   });
 
-  it('should update the selectedAnswers Map when an answer is selected', () => {
-
-    // Mock data to render button:
-    component.triviaQuestions = mockQuestions;
-    let firstId = mockQuestions[0].questionId;
-    fixture.detectChanges();
-
-    // Expect selectedAnswers to be hold key only:
-    expect(component.selectedAnswers.size).toEqual(2);
-    expect(component.selectedAnswers.has(firstId)).toBe(true);
-    expect(component.selectedAnswers.get(firstId)).toBe('');
-
-    // Expect selectedAnswers to update when answer selected:
-    let radio = fixture.debugElement.query(By.css(`input[id="${firstId}-0"]`)); // First radio button
-    let radioElement = radio.nativeElement;
-    radioElement.click();
-
-    expect(component.selectedAnswers.has(firstId)).toBe(true);
-    expect(component.selectedAnswers.get(firstId)).toBe('Mars');
-
-    // Now select another radio button on same question:
-    let radio2 = fixture.debugElement.query(By.css(`input[id="${firstId}-1"]`)); // Second radio button
-    let radioElement2 = radio2.nativeElement;
-    radioElement2.click();
-
-    expect(component.selectedAnswers.has(firstId)).toBe(true);
-    expect(component.selectedAnswers.get(firstId)).not.toBe('Mars');
-    expect(component.selectedAnswers.get(firstId)).toBe('Venus');
-
-  });
-
-  it('should update the scoreMap object when an answer is selected', () => {
-    // Mock data to render button:
-    component.triviaQuestions = mockQuestions;
-    let firstId = mockQuestions[0].questionId;
-    let secondId = mockQuestions[1].questionId;
-    fixture.detectChanges();
-
-    // Expect no scores yet:
-    expect(component.scoreMap[firstId]).toBe(0);
-    expect(component.scoreMap[secondId]).toBe(0);
-
-    // Expect scores to be {1, 0} if first question correct only:
-    let radio = fixture.debugElement.query(By.css(`input[id="${firstId}-1"]`)); // correct
-    let radioElement = radio.nativeElement;
-    radioElement.click();
-
-    let radio2 = fixture.debugElement.query(By.css(`input[id="${secondId}-1"]`)); // incorrect
-    let radioElement2 = radio2.nativeElement;
-    radioElement2.click();
-
-    expect(component.scoreMap[firstId]).toBe(1);
-    expect(component.scoreMap[secondId]).toBe(0);
-
-    // Expect scores to be {1, 1} if both questions correct:
-    let radio3 = fixture.debugElement.query(By.css(`input[id="${firstId}-1"]`)); // correct
-    let radioElement3 = radio3.nativeElement;
-    radioElement3.click();
-
-    let radio4 = fixture.debugElement.query(By.css(`input[id="${secondId}-3"]`)); // correct
-    let radioElement4 = radio4.nativeElement;
-    radioElement4.click();
-
-    expect(component.scoreMap[firstId]).toBe(1);
-    expect(component.scoreMap[secondId]).toBe(1);
-
-    // Expect scores to go back to {0, 0} if both questions incorrect:
-    let radio5 = fixture.debugElement.query(By.css(`input[id="${firstId}-2"]`)); // incorrect
-    let radioElement5 = radio5.nativeElement;
-    radioElement5.click();
-
-    let radio6 = fixture.debugElement.query(By.css(`input[id="${secondId}-2"]`)); // incorrect
-    let radioElement6 = radio6.nativeElement;
-    radioElement6.click();
-
-    expect(component.scoreMap[firstId]).toBe(0);
-    expect(component.scoreMap[secondId]).toBe(0);
-
-  });
+  // It should update score and selectedAnswer properties when an answer is selected
 
   it('should calculate correct score when "check answers" button pressed', () => {
 
     // Mock some data to force check-answers button to render:
     component.triviaQuestions = mockQuestions;
     fixture.detectChanges();
+    component.triviaQuestions[0].score = 1;
+    component.triviaQuestions[1].score = 1;
 
     // Mock scores:
-    component.scoreMap = {
-      'firstID': 1,
-      'secondID': 0,
-      'thirdID': 1,
-      'fourthID': 0,
-      'fifthID': 1,
-      'sixthID': 1,
-      'seventhID': 1,
-      'eighthID': 0,
-      'ninethID': 1,
-      'tenthID': 0,
-    };
+    // component.scoreMap = {
+    //   'firstID': 1,
+    //   'secondID': 0,
+    //   'thirdID': 1,
+    //   'fourthID': 0,
+    //   'fifthID': 1,
+    //   'sixthID': 1,
+    //   'seventhID': 1,
+    //   'eighthID': 0,
+    //   'ninethID': 1,
+    //   'tenthID': 0,
+    // };
+
+
 
     expect(component.score).toEqual(0);
-    expect(component.score).not.toEqual(6);
+    expect(component.score).not.toEqual(2);
 
     let button = fixture.debugElement.query(By.css('button#check-answers-button')).nativeElement;
     button.click();
 
-    expect(component.score).toEqual(6);
+    expect(component.score).toEqual(2);
     expect(component.score).not.toEqual(0);
 
   });

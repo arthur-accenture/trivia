@@ -6,14 +6,14 @@
       </div>
       <div class="answers">
         <div *ngFor="let answer of triviaQuestion.allAnswers; let i = index" class="answer">
-            <label for="{{triviaQuestion.questionId}}-{{i}}" [ngClass]="{'correct-answer': revealAnswers && answer==correctAnswers.get(triviaQuestion.questionId), 'selected-answer': revealAnswers && answer==selectedAnswers.get(triviaQuestion.questionId)}">
-                <input type="radio" name="{{triviaQuestion.questionId}}" (change)="updateSelection(triviaQuestion.questionId, triviaQuestion.allAnswers[i])" id="{{triviaQuestion.questionId}}-{{i}}"/>{{answer}}
+            <label for="{{triviaQuestion.questionId}}-{{i}}" [ngClass]="{'correct-answer': revealAnswers && answer==triviaQuestion.correctAnswer, 'selected-answer': revealAnswers && answer==triviaQuestion.selectedAnswer}">
+                <input type="radio" name="{{triviaQuestion.questionId}}" (change)="updateSelection(triviaQuestion, triviaQuestion.allAnswers[i])" id="{{triviaQuestion.questionId}}-{{i}}"/>{{answer}}
             </label>
         </div>
       </div>
     </li>
   </ol>
-  <button *ngIf="correctAnswers.size > 0" id="check-answers-button" (click)="checkAnswers()">Check Answers</button>
+  <button *ngIf="triviaQuestions" id="check-answers-button" (click)="checkAnswers()">Check Answers</button>
   <div *ngIf="revealAnswers" class="score-wrapper">
     Score: {{score}}
   </div>
